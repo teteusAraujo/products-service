@@ -1,20 +1,23 @@
 syntax = "proto3";
-
 option java_multiple_files = true;
 option java_package = "com.mateus";
-option java_outer_classname = "ProductsService";
-option objc_class_prefix = "HLW";
+
 
 package com.mateus;
 
-service ProductsServiceService {
-  rpc send (ProductsServiceRequest) returns (ProductsServiceReply) {}
+service ProductsService {
+  rpc Create (ProductServiceRequest) returns (ProductServiceResponse) {}
 }
 
-message ProductsServiceRequest {
+message ProductServiceRequest {
   string name = 1;
+  double price = 2;
+  int32 stock_quantity = 3;
 }
 
-message ProductsServiceReply {
-  string message = 1;
+message ProductServiceResponse {
+  int64 id = 1;
+  string name = 2;
+  double price = 3;
+  int32 stock_quantity = 4;
 }
