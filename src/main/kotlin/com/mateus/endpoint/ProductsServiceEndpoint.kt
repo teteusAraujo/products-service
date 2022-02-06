@@ -12,7 +12,7 @@ import io.micronaut.grpc.annotation.GrpcService
 class ProductsServiceEndpoint(private val productService: ProductService): ProductsServiceGrpc.ProductsServiceImplBase() {
     override fun create(request: ProductServiceRequest?, responseObserver: StreamObserver<ProductServiceResponse>?) {
         val productReq = ProductRequest(
-            name = request.name,
+            name = request!!.name,
             price = request.price,
             stockQuantity = request.stockQuantity
         )

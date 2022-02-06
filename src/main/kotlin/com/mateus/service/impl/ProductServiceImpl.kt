@@ -5,24 +5,16 @@ import com.mateus.dto.ProductRequest
 import com.mateus.dto.ProductResponse
 import com.mateus.repository.ProductRepository
 import com.mateus.service.ProductService
+import com.mateus.utils.toProduct
+import com.mateus.utils.toProductRes
+import jakarta.inject.Singleton
 
+@Singleton
 class ProductServiceImpl ( private val productRepository: ProductRepository) : ProductService {
 
     override fun create(request: ProductRequest): ProductResponse {
-        val productReq = Product(
-            id = null,
-            name = request.name,
-            price = request.price,
-            stockQuantity = request.stockQuantity
-        )
-        val productSaved = productRepository.save(productReq)
-
-       return ProductResponse(
-            id = productSaved.id!!,
-            name = productSaved.name,
-            price = productSaved.price,
-            stockQuantity = productSaved.stockQuantity
-        )
-
+        val productSaved = productRepository.save(request.toProduct())
+       return productSaved.toProductRes()
     }
+
 }
