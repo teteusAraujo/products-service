@@ -1,0 +1,6 @@
+applicationType: grpc
+defaultPackage: com.mateus
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: gradle
+features: [annotation-api, app-name, data, data-jpa, gradle, grpc, h2, jackson-databind, jdbc-hikari, junit, kotlin, kotlin-application, kotlin-build, logback, micronaut-build, readme, shade, yaml]
