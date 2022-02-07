@@ -7,6 +7,7 @@ package com.mateus;
 
 service ProductsService {
   rpc Create (ProductServiceRequest) returns (ProductServiceResponse) {}
+  rpc FindById(ProductRequestById) returns (ProductServiceResponse) {}
 }
 
 message ProductServiceRequest {
@@ -20,4 +21,8 @@ message ProductServiceResponse {
   string name = 2;
   double price = 3;
   int32 stock_quantity = 4;
+}
+
+message ProductRequestById {
+  int64 id = 1 ;
 }
