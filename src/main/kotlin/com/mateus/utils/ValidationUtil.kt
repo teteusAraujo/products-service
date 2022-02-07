@@ -9,7 +9,7 @@ class ValidationUtil {
             payload?.let {
                 if (it.name.isNullOrBlank())
                     throw IllegalArgumentException("O nome do produto não pode ser nulo ou vazio")
-                if (it.price.isFinite())
+                if (it.price.isNaN())
                     throw IllegalArgumentException("Preço deve ser um valor valido")
                 return it
             }
