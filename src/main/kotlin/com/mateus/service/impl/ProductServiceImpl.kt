@@ -17,4 +17,8 @@ class ProductServiceImpl ( private val productRepository: ProductRepository) : P
        return productSaved.toProductRes()
     }
 
+    override fun findById(id: Long): ProductResponse {
+        return productRepository.findById(id).get().toProductRes()
+    }
+
 }

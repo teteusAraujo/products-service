@@ -1,5 +1,6 @@
 package com.mateus.endpoint
 
+import com.mateus.ProductRequestById
 import com.mateus.ProductServiceRequest
 import com.mateus.ProductServiceResponse
 import com.mateus.ProductsServiceGrpc
@@ -25,6 +26,19 @@ class ProductsServiceEndpoint(private val productService: ProductService): Produ
             .setName(productSaved.name)
             .setPrice(productSaved.price)
             .setStockQuantity(productSaved.stockQuantity)
+            .build()
+
+        responseObserver!!.onNext(productRes)
+        responseObserver.onCompleted()
+    }
+
+    override fun findById(request: ProductRequestById?, responseObserver: StreamObserver<ProductServiceResponse>?) {
+        val response = productService.findById(request!!.id)
+        val productRes = ProductServiceResponse.newBuilder()
+            .setId(response.id)
+            .setName(response.name)
+            .setPrice(response.price)
+            .setStockQuantity(response.stockQuantity)
             .build()
 
         responseObserver!!.onNext(productRes)
