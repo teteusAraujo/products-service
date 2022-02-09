@@ -1,10 +1,8 @@
 package com.mateus.endpoint
 
-import com.mateus.ProductRequestById
-import com.mateus.ProductServiceRequest
-import com.mateus.ProductServiceResponse
-import com.mateus.ProductsServiceGrpc
+import com.mateus.*
 import com.mateus.dto.ProductRequest
+import com.mateus.dto.ProductResponse
 import com.mateus.service.ProductService
 import com.mateus.utils.ValidationUtil
 import io.grpc.stub.StreamObserver
@@ -43,5 +41,11 @@ class ProductsServiceEndpoint(private val productService: ProductService): Produ
 
         responseObserver!!.onNext(productRes)
         responseObserver.onCompleted()
+    }
+
+    override fun delete(request: ProductRequestById?, responseObserver: StreamObserver<Empty>?) {
+        productService.delete(request!!.id)
+        responseObserver?.onNext(Empty.newBuilder().build())
+        responseObserver!!.onCompleted()
     }
 }
