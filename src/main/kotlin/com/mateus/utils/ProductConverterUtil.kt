@@ -21,3 +21,12 @@ fun ProductRequest.toProduct(): Product{
         stockQuantity = stockQuantity
     )
 }
+
+fun ProductResponse.toProductUpdate() : Product{
+    return Product(
+        id = id ,
+        name = name ,
+        price = price ,
+        stockQuantity = stockQuantity
+    )
+}
