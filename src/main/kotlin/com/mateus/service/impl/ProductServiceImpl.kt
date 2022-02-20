@@ -4,6 +4,7 @@ import com.mateus.domain.Product
 import com.mateus.dto.ProductRequest
 import com.mateus.dto.ProductResponse
 import com.mateus.dto.ProductUpdateRequest
+import com.mateus.exceptions.AlreadyExistsException
 import com.mateus.repository.ProductRepository
 import com.mateus.service.ProductService
 import com.mateus.utils.toProduct
@@ -15,8 +16,15 @@ import jakarta.inject.Singleton
 class ProductServiceImpl ( private val productRepository: ProductRepository) : ProductService {
 
     override fun create(request: ProductRequest): ProductResponse {
+        verifyName(request.name)
         val productSaved = productRepository.save(request.toProduct())
        return productSaved.toProductRes()
+    }
+
+    private fun verifyName(name : String){
+        productRepository.findByNameIgnoreCase(name)?.let {
+            throw AlreadyExistsException(name)
+        }
     }
 
     override fun findById(id: Long): ProductResponse {
