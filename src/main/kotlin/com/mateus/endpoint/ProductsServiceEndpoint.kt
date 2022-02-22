@@ -2,7 +2,7 @@ package com.mateus.endpoint
 
 import com.mateus.*
 import com.mateus.dto.ProductRequest
-import com.mateus.dto.ProductResponse
+import com.mateus.dto.ProductUpdateRequest
 import com.mateus.exceptions.BaseBusinessExceptions
 import com.mateus.service.ProductService
 import com.mateus.utils.ValidationUtil
@@ -37,16 +37,42 @@ class ProductsServiceEndpoint(private val productService: ProductService): Produ
     }
 
     override fun findById(request: ProductRequestById?, responseObserver: StreamObserver<ProductServiceResponse>?) {
-        val response = productService.findById(request!!.id)
+        try {
+            val response = productService.findById(request!!.id)
+            val productRes = ProductServiceResponse.newBuilder()
+                .setId(response.id)
+                .setName(response.name)
+                .setPrice(response.price)
+                .setStockQuantity(response.stockQuantity)
+                .build()
+
+            responseObserver!!.onNext(productRes)
+            responseObserver.onCompleted()
+        } catch (ex: BaseBusinessExceptions){
+            responseObserver?.onError(ex.statusCode().toStatus()
+                .withDescription(ex.erroMessage()).asRuntimeException())
+        }
+    }
+
+    override fun update(request: ProductServiceUpdateRequest?,
+        responseObserver: StreamObserver<ProductServiceResponse>?) {
+        val productReq = ProductUpdateRequest(
+            id = request!!.id,
+            name = request.name,
+            price = request.price,
+            stockQuantity = request.stockQuantity
+        )
+        val response = productService.update(productReq)
         val productRes = ProductServiceResponse.newBuilder()
             .setId(response.id)
             .setName(response.name)
             .setPrice(response.price)
             .setStockQuantity(response.stockQuantity)
             .build()
-
         responseObserver!!.onNext(productRes)
         responseObserver.onCompleted()
+
+
     }
 
     override fun delete(request: ProductRequestById?, responseObserver: StreamObserver<Empty>?) {
