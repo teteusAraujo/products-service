@@ -5,6 +5,7 @@ import com.mateus.dto.ProductRequest
 import com.mateus.dto.ProductResponse
 import com.mateus.dto.ProductUpdateRequest
 import com.mateus.exceptions.AlreadyExistsException
+import com.mateus.exceptions.ProductNotFoundException
 import com.mateus.repository.ProductRepository
 import com.mateus.service.ProductService
 import com.mateus.utils.toProduct
@@ -28,7 +29,26 @@ class ProductServiceImpl ( private val productRepository: ProductRepository) : P
     }
 
     override fun findById(id: Long): ProductResponse {
-        return productRepository.findById(id).get().toProductRes()
+       val findById = productRepository.findById(id)
+        findById.orElseThrow{
+            ProductNotFoundException(id)
+        }
+        return findById.get().toProductRes()
+    }
+
+    override fun update(request: ProductUpdateRequest): ProductResponse {
+        verifyName(request.name)
+        val product = productRepository.findById(request.id).orElseThrow {
+            ProductNotFoundException(request.id)
+        }
+        val copyProduct = product.copy(
+            name = request.name,
+            price = request.price,
+            stockQuantity = request.stockQuantity
+        )
+        return productRepository.update(copyProduct).toProductRes()
+
+
     }
 
     override fun delete(id: Long) {
