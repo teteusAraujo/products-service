@@ -52,7 +52,18 @@ class ProductServiceImpl ( private val productRepository: ProductRepository) : P
     }
 
     override fun delete(id: Long) {
-        productRepository.deleteById(id)
+        val product = productRepository.findById(id).orElseThrow {
+            ProductNotFoundException(id)
+        }
+        productRepository.delete(product)
+    }
+
+    override fun findAll(): List<ProductResponse> {
+        val findAll = productRepository.findAll()
+        return findAll.map {
+            it.toProductRes()
+        }
+
     }
 
 

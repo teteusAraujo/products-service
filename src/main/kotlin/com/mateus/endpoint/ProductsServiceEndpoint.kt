@@ -1,6 +1,7 @@
 package com.mateus.endpoint
 
 import com.mateus.*
+import com.mateus.domain.Product
 import com.mateus.dto.ProductRequest
 import com.mateus.dto.ProductUpdateRequest
 import com.mateus.exceptions.BaseBusinessExceptions
@@ -76,8 +77,32 @@ class ProductsServiceEndpoint(private val productService: ProductService): Produ
     }
 
     override fun delete(request: ProductRequestById?, responseObserver: StreamObserver<Empty>?) {
-        productService.delete(request!!.id)
-        responseObserver?.onNext(Empty.newBuilder().build())
-        responseObserver!!.onCompleted()
+        try {
+            productService.delete(request!!.id)
+            responseObserver?.onNext(Empty.newBuilder().build())
+            responseObserver!!.onCompleted()
+        } catch (ex: BaseBusinessExceptions){
+            responseObserver?.onError(ex.statusCode().toStatus()
+                .withDescription(ex.erroMessage()).asRuntimeException())
+        }
+    }
+
+    override fun findAll(request: Empty?, responseObserver: StreamObserver<Products>?) {
+        val productResList = productService.findAll()
+        val productResponseList = productResList.map {
+            ProductServiceResponse.newBuilder()
+                .setId(it.id)
+                .setName(it.name)
+                .setPrice(it.price)
+                .setStockQuantity(it.stockQuantity)
+                .build()
+        }
+        val response = Products.newBuilder()
+            .addAllProducts(productResponseList)
+            .build()
+
+        responseObserver!!.onNext(response)
+        responseObserver.onCompleted()
+
     }
 }

@@ -9,7 +9,8 @@ service ProductsService {
   rpc Create (ProductServiceRequest) returns (ProductServiceResponse) {}
   rpc FindById(ProductRequestById) returns (ProductServiceResponse) {}
   rpc Update (ProductServiceUpdateRequest) returns (ProductServiceResponse) {}
-  rpc delete(ProductRequestById) returns (Empty){}
+  rpc Delete(ProductRequestById) returns (Empty){}
+  rpc FindAll(Empty) returns (Products){}
 }
 
 message ProductServiceRequest {
@@ -37,5 +38,9 @@ message ProductServiceUpdateRequest {
 }
 
 message Empty {
-
 }
+
+message Products{
+  repeated ProductServiceResponse products = 1;
+}
+
