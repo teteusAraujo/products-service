@@ -1,12 +1,14 @@
 # Product Services
 Um serviço de cadastro de produtos utlizando linguaguem Kotlin e a framewrok Micronaut e Grpc.
-## :mortar_board: Autor
+
 
 ## Stack
 - <img src="./img/stack.png" alt="Apresentação do curso"/>
 ## Estrutura do projeto desenvolvido
 
 <img src="./img/project.png" alt="Estrutura do projeto"/>
+
+## :mortar_board: Autor
 <table align="center">
     <tr>
         <td align="center">
