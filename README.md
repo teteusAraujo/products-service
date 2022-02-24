@@ -1,7 +1,7 @@
 # Product Services
 Um serviço de cadastro de produtos utlizando linguaguem Kotlin e a framewrok Micronaut e Grpc.
 
-#GRPC
+## GRPC
 É um framework desenvolvido pela google que tem como objetivo facilitar o processo de comunicação entre sistemas de uma forma extremamente rapida, leve, independente de linguaguem de programação.
 * Ideal para microserviços
 * Mobile, browsers e Backend
@@ -9,7 +9,7 @@ Um serviço de cadastro de produtos utlizando linguaguem Kotlin e a framewrok Mi
 * Streaming bidirecional utilizando o HTTP/2
 * Contrato First
 
-#Micronaut
+## Micronaut
 É um framework que não utiliza reflection, ou seja, tudo acontece em tempo de compilação. diferente do spring.
 * Tempo de inicialização rapida 
 * Baixo consumo de memoria
